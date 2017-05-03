@@ -64,6 +64,12 @@ public class Hid extends CordovaPlugin {
     }
 
     @Override
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+        showToast("Test 2");
+    }
+
+    @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
