@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -43,14 +44,14 @@ public class Hid extends CordovaPlugin {
 	private TerminalFactory mFactory = null;
 	private CardTerminal mReader = null;
     private AsyncTask<Void, String, Void> mReadCardTask = null;
+    private Context mContext;
 
-    private Context context;
     private CallbackContext readCallback;
     private boolean tryConnect = false;
 
     @Override
     protected void pluginInitialize() {
-        context = this.cordova.getActivity().getApplicationContext();
+        mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
@@ -65,7 +66,7 @@ public class Hid extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
-            mService = CardService.getInstance(context);
+            mService = CardService.getInstance(mContext);
             tryConnect = true;
             return true;
         }
@@ -82,7 +83,7 @@ public class Hid extends CordovaPlugin {
 	}
 
     private void showToast(String message) {
-		Toast toast = Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(mContext.getApplicationContext(), message, Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
@@ -125,7 +126,7 @@ public class Hid extends CordovaPlugin {
 
     private boolean alreadyInstalled(String packageName) {
 		try {
-			PackageManager pm = context.getPackageManager();
+			PackageManager pm = mContext.getPackageManager();
 			pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
 			return true;
 		} catch (PackageManager.NameNotFoundException e) {
@@ -138,10 +139,10 @@ public class Hid extends CordovaPlugin {
 		try {
 			/* Copy the .apk file from the assets directory to the external
 			 * cache, from where it can be installed. */
-			File temp = File.createTempFile("CardReaderManager", "apk", context.getExternalCacheDir());
+			File temp = File.createTempFile("CardReaderManager", "apk", mContext.getExternalCacheDir());
 			temp.setWritable(true);
 			FileOutputStream out = new FileOutputStream(temp);
-			InputStream in = getResources().getAssets().open(MANAGEMENT_APP);
+			InputStream in = mContext.getResources().getAssets().open(MANAGEMENT_APP);
 			byte[] buffer = new byte[1024];
 			int bytes = 0;
 
@@ -159,7 +160,7 @@ public class Hid extends CordovaPlugin {
 		 * user and returns with call to onActivityResult() to this Activity. */
 		Intent promptInstall = new Intent(Intent.ACTION_VIEW);
 		promptInstall.setDataAndType(Uri.fromFile(new File(cachePath)), "application/vnd.android.package-archive");
-		startActivityForResult(promptInstall, REQUEST_APP_INSTALL);
+		((Activity) mContext).startActivityForResult(promptInstall, REQUEST_APP_INSTALL);
 		return true;
 	}
 
