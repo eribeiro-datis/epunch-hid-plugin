@@ -65,7 +65,7 @@ public class Hid extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
-            mService = CardService.getInstance(this);
+            mService = CardService.getInstance(context);
             tryConnect = true;
             return true;
         }
@@ -125,7 +125,7 @@ public class Hid extends CordovaPlugin {
 
     private boolean alreadyInstalled(String packageName) {
 		try {
-			PackageManager pm = getPackageManager();
+			PackageManager pm = context.getPackageManager();
 			pm.getPackageInfo(packageName, PackageManager.GET_ACTIVITIES);
 			return true;
 		} catch (PackageManager.NameNotFoundException e) {
