@@ -22,6 +22,7 @@
         </config-file>
         <source-file src="src/android/com/datis/epunch/Hid.java" target-dir="src/com/datis/epunch" />
         <source-file src="lib/AndroidSCard.jar" target-dir="libs" />
+        <source-file src="lib/JSR268Library.jar" target-dir="libs" />
         <resource-file src="res/android/CardReaderManager.apk" target="assets/CardReaderManager.apk" />
     </platform>
 </plugin>
