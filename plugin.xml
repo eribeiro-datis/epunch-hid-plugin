@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<plugin xmlns="http://www.phonegap.com/ns/plugins/1.0"
+    id="com.datis.epunch.Hid"
+    version="0.0.0">
+    <name>RFID Reader</name>
+    <description>Cordova plugin to communicate with the android USB serial port</description>
+    <license>MIT</license>
+    <keywords>serial,rfid</keywords>
+
+    <!-- js module -->
+    <js-module src="www/hid.js" name="Hid">
+        <clobbers target="window.hid" />
+    </js-module>
+
+    <!-- android -->
+    <platform name="android">
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="Hid">
+                <param name="android-package" value="com.datis.epunch.Hid"/>
+            </feature>
+        </config-file>
+        <source-file src="src/android/com/datis/epunch/Hid.java" target-dir="src/com/datis/epunch" />
+        <resource-file src="res/android/CardReaderManager.apk" target="assets/CardReaderManager.apk" />
+    </platform>
+</plugin>
