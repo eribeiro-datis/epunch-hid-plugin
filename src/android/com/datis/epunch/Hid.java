@@ -51,6 +51,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
+        showToast("Test 1");
         mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
@@ -165,7 +166,6 @@ public class Hid extends CordovaPlugin {
 	}
 
     private class ReadCardTask extends AsyncTask<Void, String, Void> {
-
 		@Override
 		public Void doInBackground(Void... params) {
 			/* Wait until we have the reader instance. */
