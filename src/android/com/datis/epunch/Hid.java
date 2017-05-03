@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import android.smartcardio.CardTerminal;
 import android.smartcardio.TerminalFactory;
 import android.smartcardio.ipc.CardService;
 import android.smartcardio.ipc.ICardService;
+import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -27,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Hid extends CordovaPlugin {
+    private static final String TAG = Hid.class.getName();
     private static final String ACTION_CONNECT_DEVICE = "connectToDevice";
     private static final String ACTION_REGISTER_LISTENER = "registerListener";
     private static final String MANAGEMENT_APP = "CardReaderManager.apk";
