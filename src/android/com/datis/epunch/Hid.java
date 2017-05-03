@@ -6,8 +6,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import android.content.*;
-// import android.content.Intent;
+import android.content.Contex;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -80,8 +80,7 @@ public class Hid extends CordovaPlugin {
 	}
 
     private void showToast(String message) {
-		Toast toast = Toast.makeText(getApplicationContext(), message,
-				Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(Context.getApplicationContext(), message, Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
@@ -137,7 +136,7 @@ public class Hid extends CordovaPlugin {
 		try {
 			/* Copy the .apk file from the assets directory to the external
 			 * cache, from where it can be installed. */
-			File temp = File.createTempFile("CardReaderManager", "apk", getExternalCacheDir());
+			File temp = File.createTempFile("CardReaderManager", "apk", Context.getExternalCacheDir());
 			temp.setWritable(true);
 			FileOutputStream out = new FileOutputStream(temp);
 			InputStream in = getResources().getAssets().open(MANAGEMENT_APP);
