@@ -44,11 +44,13 @@ public class Hid extends CordovaPlugin {
 	private CardTerminal mReader = null;
     private AsyncTask<Void, String, Void> mReadCardTask = null;
 
+    private Context context;
     private CallbackContext readCallback;
     private boolean tryConnect = false;
 
     @Override
     protected void pluginInitialize() {
+        context = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
@@ -80,7 +82,7 @@ public class Hid extends CordovaPlugin {
 	}
 
     private void showToast(String message) {
-		Toast toast = Toast.makeText(Context.getApplicationContext(), message, Toast.LENGTH_SHORT);
+		Toast toast = Toast.makeText(context.getApplicationContext(), message, Toast.LENGTH_SHORT);
 		toast.setGravity(Gravity.CENTER, 0, 0);
 		toast.show();
 	}
@@ -136,7 +138,7 @@ public class Hid extends CordovaPlugin {
 		try {
 			/* Copy the .apk file from the assets directory to the external
 			 * cache, from where it can be installed. */
-			File temp = File.createTempFile("CardReaderManager", "apk", Context.getExternalCacheDir());
+			File temp = File.createTempFile("CardReaderManager", "apk", context.getExternalCacheDir());
 			temp.setWritable(true);
 			FileOutputStream out = new FileOutputStream(temp);
 			InputStream in = getResources().getAssets().open(MANAGEMENT_APP);
