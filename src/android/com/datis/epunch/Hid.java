@@ -20,6 +20,8 @@ import android.smartcardio.TerminalFactory;
 import android.smartcardio.ipc.CardService;
 import android.smartcardio.ipc.ICardService;
 import android.util.Log;
+import android.view.Gravity;
+import android.widget.Toast;
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaPlugin;
@@ -50,7 +52,7 @@ public class Hid extends CordovaPlugin {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
 			if (!installManagementApp()) {
-				// showToast("Error: unable to install the management App");
+				showToast("Error: unable to install the management App");
 				this.finish();
 			}
 		}
@@ -76,13 +78,20 @@ public class Hid extends CordovaPlugin {
 		}
 	}
 
+    private void showToast(String message) {
+		Toast toast = Toast.makeText(getApplicationContext(), message,
+				Toast.LENGTH_SHORT);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.show();
+	}
+
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
 				Log.e(TAG, "unable to get terminal factory");
-				// showToast("Error: unable to get terminal factory");
+				showToast("Error: unable to get terminal factory");
 				return null;
 			}
 		}
