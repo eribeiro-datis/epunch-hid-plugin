@@ -11,14 +11,14 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.smartcardio.ATR;
-import android.smartcardio.Card;
-import android.smartcardio.CardException;
-import android.smartcardio.CardNotPresentException;
-import android.smartcardio.CardTerminal;
-import android.smartcardio.TerminalFactory;
-import android.smartcardio.ipc.CardService;
-import android.smartcardio.ipc.ICardService;
+import javax.smartcardio.ATR;
+import javax.smartcardio.Card;
+import javax.smartcardio.CardException;
+import javax.smartcardio.CardNotPresentException;
+import javax.smartcardio.CardTerminal;
+import javax.smartcardio.TerminalFactory;
+import javax.smartcardio.ipc.CardService;
+import javax.smartcardio.ipc.ICardService;
 import android.util.Log;
 
 import org.apache.cordova.CallbackContext;
@@ -50,7 +50,7 @@ public class Hid extends CordovaPlugin {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
 			if (!installManagementApp()) {
-				showToast("Error: unable to install the management App");
+				// showToast("Error: unable to install the management App");
 				this.finish();
 			}
 		}
@@ -82,7 +82,7 @@ public class Hid extends CordovaPlugin {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
 				Log.e(TAG, "unable to get terminal factory");
-				showToast("Error: unable to get terminal factory");
+				// showToast("Error: unable to get terminal factory");
 				return null;
 			}
 		}
@@ -127,8 +127,7 @@ public class Hid extends CordovaPlugin {
 		try {
 			/* Copy the .apk file from the assets directory to the external
 			 * cache, from where it can be installed. */
-			File temp = File.createTempFile("CardReaderManager", "apk",
-					getExternalCacheDir());
+			File temp = File.createTempFile("CardReaderManager", "apk", getExternalCacheDir());
 			temp.setWritable(true);
 			FileOutputStream out = new FileOutputStream(temp);
 			InputStream in = getResources().getAssets().open(MANAGEMENT_APP);
@@ -148,8 +147,7 @@ public class Hid extends CordovaPlugin {
 		/* Actual installation, calls external Activity that is shown to the
 		 * user and returns with call to onActivityResult() to this Activity. */
 		Intent promptInstall = new Intent(Intent.ACTION_VIEW);
-		promptInstall.setDataAndType(Uri.fromFile(new File(cachePath)),
-				"application/vnd.android.package-archive");
+		promptInstall.setDataAndType(Uri.fromFile(new File(cachePath)), "application/vnd.android.package-archive");
 		startActivityForResult(promptInstall, REQUEST_APP_INSTALL);
 		return true;
 	}
