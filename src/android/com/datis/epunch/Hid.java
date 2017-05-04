@@ -59,7 +59,6 @@ public class Hid extends CordovaPlugin {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
 			if (!installManagementApp()) {
-				showToast("Error: unable to install the management App");
 				// this.finish();
 			}
 		}
