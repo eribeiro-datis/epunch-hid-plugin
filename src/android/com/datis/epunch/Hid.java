@@ -53,7 +53,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
-        Log.d("pluginInitialize");
+        Log.d(TAG, "pluginInitialize");
         mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
@@ -67,7 +67,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        Log.d("initialize");
+        Log.d(TAG, "initialize");
         super.initialize(cordova, webView);
     }
 
