@@ -53,7 +53,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
-        showToast("Test 1");
+        Log.d("pluginInitialize");
         mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
@@ -67,8 +67,8 @@ public class Hid extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        Log.d("initialize");
         super.initialize(cordova, webView);
-        showToast("Test 2");
     }
 
     @Override
@@ -91,19 +91,12 @@ public class Hid extends CordovaPlugin {
 		}
 	}
 
-    private void showToast(String message) {
-		Toast toast = Toast.makeText(mContext.getApplicationContext(), message, Toast.LENGTH_SHORT);
-		toast.setGravity(Gravity.CENTER, 0, 0);
-		toast.show();
-	}
-
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
 				Log.e(TAG, "unable to get terminal factory");
-				showToast("Error: unable to get terminal factory");
 				return null;
 			}
 		}
@@ -120,7 +113,6 @@ public class Hid extends CordovaPlugin {
 			firstReader = readerList.get(0);
 		} catch (CardException e) {
 			Log.e(TAG, e.toString());
-			showToast("Error: " + e.toString());
 		}
 		return firstReader;
 	}
