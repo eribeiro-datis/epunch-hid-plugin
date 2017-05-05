@@ -85,8 +85,6 @@ public class Hid extends CordovaPlugin {
 			try {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
-				Log.e(TAG, "ERROR: Unable to get terminal factory");
-                Log.e(TAG, e.getMessage());
                 Log.e(TAG, e.toString());
 				return null;
 			}
@@ -156,6 +154,14 @@ public class Hid extends CordovaPlugin {
 		return true;
 	}
 
+    private String byteArrayToString(byte[] array) {
+		String hex = "";
+		for (int i = 0; i < array.length; i++) {
+			hex += "0x" + Integer.toHexString(array[i] & 0x000000ff) + " ";
+		}
+		return hex;
+	}
+
     private class ReadCardTask extends AsyncTask<Void, String, Void> {
 		@Override
 		public Void doInBackground(Void... params) {
@@ -182,6 +188,7 @@ public class Hid extends CordovaPlugin {
 						Card card = mReader.connect("*");
 						ATR atr = card.getATR();
 						card.disconnect(true);
+                        Log.d(TAG, byteArrayToString(atr.getBytes()));
                         updateReceivedData(atr.getBytes());
 					}
 					try {
@@ -191,7 +198,6 @@ public class Hid extends CordovaPlugin {
 					}
 				} catch (CardException e) {
 					Log.e(TAG, e.toString());
-					publishProgress("Error: " + e.toString(), "");
 				}
 			}
 			return null;
