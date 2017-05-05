@@ -51,13 +51,27 @@ public class Hid extends CordovaPlugin {
     private CallbackContext readCallback;
 
     @Override
-    protected void pluginInitialize() {
-        mContext = this.cordova.getActivity().getApplicationContext();
+    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        super.initialize(cordova, webView);
+
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
-        mService = CardService.getInstance(this.cordova.getActivity());
+
+        Activity activity = cordova.getActivity();
+        Log.d(TAG, activity.getPackageName());
+        mContext = activity.getApplicationContext();
+        mService = CardService.getInstance(activity);
     }
+
+    // @Override
+    // protected void pluginInitialize() {
+    //     mContext = this.cordova.getActivity().getApplicationContext();
+    //     if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
+	// 		installManagementApp();
+	// 	}
+    //     mService = CardService.getInstance(this.cordova.getActivity());
+    // }
 
     @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
