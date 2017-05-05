@@ -84,7 +84,8 @@ public class Hid extends CordovaPlugin {
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
-				mFactory = mService.getTerminalFactory();
+				//mFactory = mService.getTerminalFactory();
+                mFactory = TerminalFactory.getDefault();
 			} catch (Exception e) {
                 Log.e(TAG, e.toString());
 				return null;
