@@ -72,8 +72,8 @@ public class Hid extends CordovaPlugin {
             Log.d(TAG, "Connect Device");
             mService = CardService.getInstance(mContext);
             tryConnect = true;
-            mGetCardStatusTask = new GetCardStatusTask();
-			mGetCardStatusTask.execute();
+            mReadCardTask = new ReadCardTask();
+			mReadCardTask.execute();
             return true;
         }
         return false;
