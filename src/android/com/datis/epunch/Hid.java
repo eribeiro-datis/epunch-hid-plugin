@@ -58,7 +58,7 @@ public class Hid extends CordovaPlugin {
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
-        mService = CardService.getInstance(this);
+        mService = CardService.getInstance(activity);
     }
 
     @Override
