@@ -53,27 +53,23 @@ public class Hid extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
-        Log.d(TAG, "pluginInitialize");
         mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
+            Log.d(TAG, "Must install");
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
 			if (!installManagementApp()) {
+                Log.d(TAG, "Can't install");
 				// this.finish();
 			}
 		}
     }
 
     @Override
-    public void initialize(CordovaInterface cordova, CordovaWebView webView) {
-        Log.d(TAG, "initialize");
-        super.initialize(cordova, webView);
-    }
-
-    @Override
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
+            Log.d(TAG, "Connect Device");
             mService = CardService.getInstance(mContext);
             tryConnect = true;
             return true;
@@ -91,6 +87,7 @@ public class Hid extends CordovaPlugin {
 	}
 
     private CardTerminal getFirstReader() {
+        Log.d(TAG, "Get Reader");
 		if (mFactory == null) {
 			try {
 				mFactory = mService.getTerminalFactory();
@@ -173,6 +170,7 @@ public class Hid extends CordovaPlugin {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 				}
+                Log.d(TAG, "Try Get Reader");
 				mReader = getFirstReader();
 			}
 
