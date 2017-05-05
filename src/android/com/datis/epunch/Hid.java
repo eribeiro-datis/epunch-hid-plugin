@@ -167,7 +167,7 @@ public class Hid extends CordovaPlugin {
 		public Void doInBackground(Void... params) {
 			/* Wait until we have the reader instance. */
             Log.d(TAG, "Do In Background");
-			while (!tryConnect) {
+			while (mReader == null) {
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
