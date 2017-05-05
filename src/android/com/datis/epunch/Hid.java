@@ -52,6 +52,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     public void initialize(CordovaInterface cordova, CordovaWebView webView) {
+        Log.d(TAG, "Init");
         super.initialize(cordova, webView);
 
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
