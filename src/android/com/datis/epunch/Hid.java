@@ -54,6 +54,7 @@ public class Hid extends CordovaPlugin {
     @Override
     protected void pluginInitialize() {
         mContext = this.cordova.getActivity().getApplicationContext();
+        Log.d(TAG, mContext.toString());
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
@@ -68,11 +69,11 @@ public class Hid extends CordovaPlugin {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
             mService = CardService.getInstance(mContext);
+            Log.d(TAG, mService.toString());
             tryConnect = true;
             mReadCardTask = new ReadCardTask();
-            Log.d(TAG, "Created Task");
 			mReadCardTask.execute();
-            Log.d(TAG, "Executed Task");
+            Log.d(TAG, "Started Task");
             return true;
         }
         return false;
@@ -88,12 +89,11 @@ public class Hid extends CordovaPlugin {
 	}
 
     private CardTerminal getFirstReader() {
-        Log.d(TAG, "Get Reader");
 		if (mFactory == null) {
 			try {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
-				Log.e(TAG, "unable to get terminal factory");
+				Log.e(TAG, "ERROR: Unable to get terminal factory");
 				return null;
 			}
 		}
@@ -166,15 +166,15 @@ public class Hid extends CordovaPlugin {
 		@Override
 		public Void doInBackground(Void... params) {
 			/* Wait until we have the reader instance. */
-            Log.d(TAG, "Do In Background");
 			while (mReader == null) {
+                Log.d(TAG, "Null Reader");
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 				}
-                Log.d(TAG, "Try Get Reader");
 				mReader = getFirstReader();
 			}
+            Log.d(TAG, "***Found Reader");
 
 			/* This is done until the button is clicked, which cancels this
 			 * AsyncTask. */
