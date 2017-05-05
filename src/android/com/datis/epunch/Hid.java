@@ -49,18 +49,12 @@ public class Hid extends CordovaPlugin {
     private Context mContext;
 
     private CallbackContext readCallback;
-    private boolean tryConnect = false;
 
     @Override
     protected void pluginInitialize() {
         mContext = this.cordova.getActivity().getApplicationContext();
-        Log.d(TAG, mContext.toString());
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
-			/* If the management App cannot be installed, further processing
-			 * is impossible. */
-			if (!installManagementApp()) {
-				// this.finish();
-			}
+			installManagementApp();
 		}
     }
 
@@ -69,8 +63,6 @@ public class Hid extends CordovaPlugin {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
             mService = CardService.getInstance(mContext);
-            Log.d(TAG, mService.toString());
-            tryConnect = true;
             mReadCardTask = new ReadCardTask();
 			mReadCardTask.execute();
             Log.d(TAG, "Started Task");
@@ -94,6 +86,7 @@ public class Hid extends CordovaPlugin {
 				mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
 				Log.e(TAG, "ERROR: Unable to get terminal factory");
+                Log.e(TAG, e.getMessage());
 				return null;
 			}
 		}
