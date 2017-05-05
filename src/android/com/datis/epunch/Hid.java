@@ -53,6 +53,7 @@ public class Hid extends CordovaPlugin {
     @Override
     protected void pluginInitialize() {
         mContext = this.cordova.getActivity().getApplicationContext();
+        mService = CardService.getInstance(mContext);
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
@@ -62,7 +63,6 @@ public class Hid extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
-            mService = CardService.getInstance(mContext);
             mReadCardTask = new ReadCardTask();
 			mReadCardTask.execute();
             Log.d(TAG, "Started Task");
