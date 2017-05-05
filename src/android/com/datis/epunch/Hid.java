@@ -85,12 +85,17 @@ public class Hid extends CordovaPlugin {
 		if (mFactory == null) {
 			try {
 				//mFactory = mService.getTerminalFactory();
-                mFactory = TerminalFactory.getDefault();
+                Log.d(TAG, "Ready");
+                Provider provider = (Provider) Class.forName(TAG).getConstructor().newInstance();
+                Log.d(TAG, "Created Provider");
+                mFactory = TerminalFactory.getInstance("PC/SC", null, provider);
+                Log.d(TAG, "Created Factory");
 			} catch (Exception e) {
                 Log.e(TAG, e.toString());
 				return null;
 			}
 		}
+        Log.d(TAG, "Factory Created");
 
 		CardTerminal firstReader = null;
 		try {
