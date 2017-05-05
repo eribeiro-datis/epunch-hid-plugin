@@ -87,7 +87,7 @@ public class Hid extends CordovaPlugin {
 			try {
 				//mFactory = mService.getTerminalFactory();
                 Log.d(TAG, "Ready");
-                Provider provider = (Provider) Class.forName(TAG).getConstructor().newInstance();
+                Provider provider = (Provider) Class.forName("sun.security.smartcardio.SunPCSC").getConstructor().newInstance();
                 Log.d(TAG, "Created Provider");
                 mFactory = TerminalFactory.getInstance("PC/SC", null, provider);
                 Log.d(TAG, "Created Factory");
