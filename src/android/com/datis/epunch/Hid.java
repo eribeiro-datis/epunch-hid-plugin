@@ -53,7 +53,7 @@ public class Hid extends CordovaPlugin {
     @Override
     protected void pluginInitialize() {
         mContext = this.cordova.getActivity().getApplicationContext();
-        mService = CardService.getInstance(mContext);
+        mService = CardService.getInstance((Activity) mContext);
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
@@ -162,7 +162,7 @@ public class Hid extends CordovaPlugin {
 			while (mReader == null) {
                 Log.d(TAG, "Null Reader");
 				try {
-					Thread.sleep(1000);
+					Thread.sleep(3000);
 				} catch (InterruptedException e) {
 				}
 				mReader = getFirstReader();
