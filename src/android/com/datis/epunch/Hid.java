@@ -58,7 +58,7 @@ public class Hid extends CordovaPlugin {
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
-        mService = CardService.getInstance(activity);
+        mService = CardService.getInstance(this);
     }
 
     @Override
@@ -85,12 +85,12 @@ public class Hid extends CordovaPlugin {
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
-				//mFactory = mService.getTerminalFactory();
-                Log.d(TAG, "Ready");
-                Provider provider = (Provider) Class.forName("sun.security.smartcardio.SunPCSC").getConstructor().newInstance();
-                Log.d(TAG, "Created Provider");
-                mFactory = TerminalFactory.getInstance("PC/SC", null, provider);
-                Log.d(TAG, "Created Factory");
+				mFactory = mService.getTerminalFactory();
+                // Log.d(TAG, "Ready");
+                // Provider provider = (Provider) Class.forName("sun.security.smartcardio.SunPCSC").getConstructor().newInstance();
+                // Log.d(TAG, "Created Provider");
+                // mFactory = TerminalFactory.getInstance("PC/SC", null, provider);
+                // Log.d(TAG, "Created Factory");
 			} catch (Exception e) {
                 Log.e(TAG, e.toString());
 				return null;
