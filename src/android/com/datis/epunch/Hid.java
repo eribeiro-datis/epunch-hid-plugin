@@ -87,8 +87,7 @@ public class Hid extends CordovaPlugin {
 			} catch (Exception e) {
 				Log.e(TAG, "ERROR: Unable to get terminal factory");
                 Log.e(TAG, e.getMessage());
-                Log.e(TAG, e.getCause());
-                Log.e(TAG, e.getStackTrace());
+                Log.e(TAG, e.toString());
 				return null;
 			}
 		}
