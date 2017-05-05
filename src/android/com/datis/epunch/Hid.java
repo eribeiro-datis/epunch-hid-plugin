@@ -55,11 +55,9 @@ public class Hid extends CordovaPlugin {
     protected void pluginInitialize() {
         mContext = this.cordova.getActivity().getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
-            Log.d(TAG, "Must install");
 			/* If the management App cannot be installed, further processing
 			 * is impossible. */
 			if (!installManagementApp()) {
-                Log.d(TAG, "Can't install");
 				// this.finish();
 			}
 		}
@@ -69,11 +67,12 @@ public class Hid extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         JSONObject arg_object = args.optJSONObject(0);
         if (ACTION_CONNECT_DEVICE.equals(action)) {
-            Log.d(TAG, "Connect Device");
             mService = CardService.getInstance(mContext);
             tryConnect = true;
             mReadCardTask = new ReadCardTask();
+            Log.d(TAG, "Created Task");
 			mReadCardTask.execute();
+            Log.d(TAG, "Executed Task");
             return true;
         }
         return false;
@@ -167,6 +166,7 @@ public class Hid extends CordovaPlugin {
 		@Override
 		public Void doInBackground(Void... params) {
 			/* Wait until we have the reader instance. */
+            Log.d(TAG, "Do In Background");
 			while (!tryConnect) {
 				try {
 					Thread.sleep(1000);
@@ -180,6 +180,7 @@ public class Hid extends CordovaPlugin {
 			 * AsyncTask. */
 			for (; !isCancelled();) {
 				try {
+                    Log.d(TAG, "Check Card Presence");
 					if (mReader.isCardPresent()) {
 						/* Connect to the reader. This returns a card object.
 						 * "*" indicates that either protocol T=0 or T=1 can be
