@@ -25,8 +25,7 @@
             <uses-feature android:name="android.hardware.usb.host" />
             <permission android:label="Access HID Global Omnikey Base Service"
                 android:name="com.hidglobal.ia.omnikey.service.permission.SMARTCARDIO"
-                android:protectionLevel="dangerous"
-                android:description="Allows this app to receive smart card events and to access the HID Global Omnikey Base Service." />
+                android:protectionLevel="dangerous" />
             <uses-permission android:name="com.hidglobal.ia.omnikey.service.permission.SMARTCARDIO" />
             <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
         </config-file>
