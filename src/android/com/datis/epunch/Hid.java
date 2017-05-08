@@ -14,14 +14,15 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.smartcardio.ATR;
-import android.smartcardio.Card;
-import android.smartcardio.CardException;
-import android.smartcardio.CardNotPresentException;
-import android.smartcardio.CardTerminal;
-import android.smartcardio.TerminalFactory;
-import android.smartcardio.ipc.CardService;
-import android.smartcardio.ipc.ICardService;
+// import android.smartcardio.ATR;
+// import android.smartcardio.Card;
+// import android.smartcardio.CardException;
+// import android.smartcardio.CardNotPresentException;
+// import android.smartcardio.CardTerminal;
+// import android.smartcardio.TerminalFactory;
+// import android.smartcardio.ipc.CardService;
+// import android.smartcardio.ipc.ICardService;
+import apdu4j.TerminalManager;
 import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
@@ -43,28 +44,30 @@ public class Hid extends CordovaPlugin {
 	private static final String MANAGEMENT_PACKAGE = "com.hidglobal.cardreadermanager";
 	private static final int REQUEST_APP_INSTALL = 0xbeef;
 
-    private ICardService mService = null;
+    // private ICardService mService = null;
 	private TerminalFactory mFactory = null;
 	private CardTerminal mReader = null;
     private AsyncTask<Void, String, Void> mReadCardTask = null;
     private Context mContext;
+    private TerminalManager mTerminalManager;
 
     private CallbackContext readCallback;
 
     @Override
     protected void pluginInitialize() {
-        Activity activity = this.cordova.getActivity();
-        mContext = activity.getApplicationContext();
-        if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
-			installManagementApp();
-		}
-
-        Intent serviceIntent = new Intent("com.theobroma.cardreadermanager.backendipc.BroadcastRecord");
-        serviceIntent.setPackage("com.theobroma.cardreadermanager.backendipc");
-        if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
-            mContext.startService(serviceIntent);
-        }
-        mService = CardService.getInstance(activity);
+        // Activity activity = this.cordova.getActivity();
+        // mContext = activity.getApplicationContext();
+        // // if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
+		// // 	installManagementApp();
+		// // }
+        //
+        // Intent serviceIntent = new Intent("com.theobroma.cardreadermanager.backendipc.BroadcastRecord");
+        // serviceIntent.setPackage("com.theobroma.cardreadermanager.backendipc");
+        // if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
+        //     mContext.startService(serviceIntent);
+        // }
+        // mService = CardService.getInstance(activity);
+        mTerminalManager = new TerminalManager();
     }
 
     @Override
@@ -91,7 +94,7 @@ public class Hid extends CordovaPlugin {
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
-                mFactory = mService.getTerminalFactory();
+                mFactory = mTerminalManager.getTerminalFactory();
 			} catch (Exception e) {
                 Log.e(TAG, e.toString());
 				return null;
