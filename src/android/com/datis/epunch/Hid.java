@@ -16,9 +16,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.smartcardio.ATR;
 import android.smartcardio.Card;
+import android.smartcardio.CardChannel;
 import android.smartcardio.CardException;
 import android.smartcardio.CardNotPresentException;
 import android.smartcardio.CardTerminal;
+import android.smartcardio.CommandAPDU;
+import android.smartcardio.ResponseAPDU;
 import android.smartcardio.TerminalFactory;
 import android.smartcardio.ipc.CardService;
 import android.smartcardio.ipc.ICardService;
@@ -196,10 +199,20 @@ public class Hid extends CordovaPlugin {
 						 * "*" indicates that either protocol T=0 or T=1 can be
 						 * used. */
 						Card card = mReader.connect("*");
-						ATR atr = card.getATR();
+                        CardChannel channel = card.getBasicChannel();
+                        byte[] bytes = new byte[] {
+                            (byte)0xFF, // CLA
+                            (byte)0xB0, // INS
+                            (byte)0x00, // P1
+                            (byte)0x00, // P2
+                            (byte)0x00 // Le
+                        };
+                        CommandAPDU command = new CommandAPDU(bytes);
+                        ResponseAPDU response = channel.transmit(command);
+						// ATR atr = card.getATR();
 						card.disconnect(true);
-                        Log.d(TAG, byteArrayToString(atr.getBytes()));
-                        Log.d(TAG, "" + byteArrayToDecimal(atr.getBytes()));
+                        Log.d(TAG, byteArrayToString(response.getBytes()));
+                        Log.d(TAG, byteArrayToString(response.getData()));
                         updateReceivedData(atr.getBytes());
 					}
 					try {
