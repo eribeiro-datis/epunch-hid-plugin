@@ -201,11 +201,11 @@ public class Hid extends CordovaPlugin {
 						Card card = mReader.connect("*");
                         CardChannel channel = card.getBasicChannel();
                         byte[] bytes = new byte[] {
-                            (byte)0xFF, // CLA
+                            (byte)0x80, // CLA
                             (byte)0xB0, // INS
                             (byte)0x00, // P1
                             (byte)0x00, // P2
-                            (byte)0x10 // Le
+                            (byte)0x08 // Le
                         };
                         CommandAPDU command = new CommandAPDU(bytes);
                         ResponseAPDU response = channel.transmit(command);
