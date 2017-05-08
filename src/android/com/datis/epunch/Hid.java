@@ -54,16 +54,12 @@ public class Hid extends CordovaPlugin {
     @Override
     protected void pluginInitialize() {
         try {
-            Log.d(TAG, "Init");
             Activity activity = this.cordova.getActivity();
             mContext = activity.getApplicationContext();
-            Log.d(TAG, "Get context");
             if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
     			installManagementApp();
     		}
-            Log.d(TAG, "Installed");
             mService = CardService.getInstance(mContext);
-            Log.d(TAG, "Get service");
 		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}
@@ -75,7 +71,6 @@ public class Hid extends CordovaPlugin {
         if (ACTION_CONNECT_DEVICE.equals(action)) {
             mReadCardTask = new ReadCardTask();
 			mReadCardTask.execute();
-            Log.d(TAG, "Started Task");
             return true;
         }
         return false;
@@ -99,7 +94,6 @@ public class Hid extends CordovaPlugin {
 				return null;
 			}
 		}
-        Log.d(TAG, "Factory Created");
 
 		CardTerminal firstReader = null;
 		try {
@@ -173,25 +167,30 @@ public class Hid extends CordovaPlugin {
 		return hex;
 	}
 
+    private long byteArrayToDecimal(byte[] array) {
+        long num = 0;
+        for (int i = 0; i < array.length; i++) {
+			num = num * 10 + array[i];
+		}
+        return num;
+    }
+
     private class ReadCardTask extends AsyncTask<Void, String, Void> {
 		@Override
 		public Void doInBackground(Void... params) {
 			/* Wait until we have the reader instance. */
 			while (mReader == null) {
-                Log.d(TAG, "Null Reader");
 				try {
-					Thread.sleep(3000);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 				}
 				mReader = getFirstReader();
 			}
-            Log.d(TAG, "***Found Reader");
 
 			/* This is done until the button is clicked, which cancels this
 			 * AsyncTask. */
 			for (; !isCancelled();) {
 				try {
-                    Log.d(TAG, "Check Card Presence");
 					if (mReader.isCardPresent()) {
 						/* Connect to the reader. This returns a card object.
 						 * "*" indicates that either protocol T=0 or T=1 can be
@@ -200,6 +199,7 @@ public class Hid extends CordovaPlugin {
 						ATR atr = card.getATR();
 						card.disconnect(true);
                         Log.d(TAG, byteArrayToString(atr.getBytes()));
+                        Log.d(TAG, byteArrayToDecimal(atr.getBytes()));
                         updateReceivedData(atr.getBytes());
 					}
 					try {
