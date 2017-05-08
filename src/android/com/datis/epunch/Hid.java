@@ -58,6 +58,13 @@ public class Hid extends CordovaPlugin {
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
+
+        Intent serviceIntent = new Intent("com.theobroma.cardreadermanager.backendipc.BroadcastRecord");
+        serviceIntent.setPackage("com.theobroma.cardreadermanager.backendipc");
+        if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
+            mContext.startService(serviceIntent);
+        }
+        mService = CardService.getInstance(activity);
     }
 
     @Override
@@ -84,21 +91,7 @@ public class Hid extends CordovaPlugin {
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
-                Intent serviceIntent = new Intent("com.theobroma.cardreadermanager.backendipc.BroadcastRecord");
-                serviceIntent.setPackage("com.theobroma.cardreadermanager.backendipc");
-                Log.d(TAG, "Intent");
-                if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
-                    mContext.startService(serviceIntent);
-                    Log.d(TAG, "Started");
-                }
-                mService = CardService.getInstance(mContext.getApplicationContext());
-                Log.d(TAG, "Service Created");
-				mFactory = mService.getTerminalFactory();
-                // Log.d(TAG, "Ready");
-                // Provider provider = (Provider) Class.forName("sun.security.smartcardio.SunPCSC").getConstructor().newInstance();
-                // Log.d(TAG, "Created Provider");
-                // mFactory = TerminalFactory.getInstance("PC/SC", null, provider);
-                // Log.d(TAG, "Created Factory");
+                mFactory = mService.getTerminalFactory();
 			} catch (Exception e) {
                 Log.e(TAG, e.toString());
 				return null;
