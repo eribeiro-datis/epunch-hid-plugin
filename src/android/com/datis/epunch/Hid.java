@@ -199,7 +199,7 @@ public class Hid extends CordovaPlugin {
 						ATR atr = card.getATR();
 						card.disconnect(true);
                         Log.d(TAG, byteArrayToString(atr.getBytes()));
-                        Log.d(TAG, byteArrayToDecimal(atr.getBytes()).toString());
+                        Log.d(TAG, "" + byteArrayToDecimal(atr.getBytes()));
                         updateReceivedData(atr.getBytes());
 					}
 					try {
