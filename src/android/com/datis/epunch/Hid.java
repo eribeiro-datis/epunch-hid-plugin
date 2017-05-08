@@ -56,10 +56,13 @@ public class Hid extends CordovaPlugin {
         Log.d(TAG, "Init");
         Activity activity = this.cordova.getActivity();
         mContext = activity.getApplicationContext();
+        Log.d(TAG, "Get context");
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
+        Log.d(TAG, "Installed");
         mService = CardService.getInstance(activity);
+        Log.d(TAG, "Get service");
     }
 
     @Override
