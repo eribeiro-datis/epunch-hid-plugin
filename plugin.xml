@@ -21,6 +21,11 @@
             </feature>
         </config-file>
 
+        <config-file target="AndroidManifest.xml" parent="/*">
+            <uses-permission android:name="com.hidglobal.ia.omnikey.service.permission.SMARTCARDIO" />
+            <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+        </config-file>
+
         <source-file src="src/android/com/datis/epunch/Hid.java" target-dir="src/com/datis/epunch" />
         <source-file src="lib/JSR268Library.jar" target-dir="libs" />
         <resource-file src="res/android/CardReaderManager.apk" target="assets/CardReaderManager.apk" />
