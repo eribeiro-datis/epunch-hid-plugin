@@ -58,7 +58,16 @@ public class Hid extends CordovaPlugin {
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
 			installManagementApp();
 		}
-        mService = CardService.getInstance(activity);
+        Log.d(TAG, "Ready");
+        Intent serviceIntent = new Intent("com.theobroma.cardreadermanager.backendipc.BroadcastRecord");
+        serviceIntent.setPackage("com.theobroma.cardreadermanager.backendipc");
+        Log.d(TAG, "Intent");
+        if (mContext.getPackageManager().queryIntentServices(serviceIntent, 0).isEmpty()) {
+            mContext.startService(serviceIntent);
+            Log.d(TAG, "Started");
+        }
+        mService = CardService.getInstance(mContext.getApplicationContext());
+        Log.d(TAG, "Service Created");
     }
 
     @Override
