@@ -22,6 +22,7 @@ import android.os.Bundle;
 // import android.smartcardio.TerminalFactory;
 // import android.smartcardio.ipc.CardService;
 // import android.smartcardio.ipc.ICardService;
+import javax.smartcardio.*;
 import apdu4j.TerminalManager;
 import android.util.Log;
 import android.view.Gravity;
