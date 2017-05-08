@@ -24,5 +24,6 @@
         <!-- <source-file src="lib/JSR268Library.jar" target-dir="libs" /> -->
         <source-file src="lib/apdu4j.jar" target-dir="libs" />
         <!-- <resource-file src="res/android/CardReaderManager.apk" target="assets/CardReaderManager.apk" /> -->
+        <framework src="javax.smartcardio" />
     </platform>
 </plugin>
