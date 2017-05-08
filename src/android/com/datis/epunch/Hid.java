@@ -198,9 +198,8 @@ public class Hid extends CordovaPlugin {
 						Card card = mReader.connect("*");
 						ATR atr = card.getATR();
 						card.disconnect(true);
-                        Log.d(TAG, card.getProtocol());
                         Log.d(TAG, byteArrayToString(atr.getBytes()));
-                        // Log.d(TAG, "" + byteArrayToDecimal(atr.getBytes()));
+                        Log.d(TAG, "" + byteArrayToDecimal(atr.getBytes()));
                         updateReceivedData(atr.getBytes());
 					}
 					try {
