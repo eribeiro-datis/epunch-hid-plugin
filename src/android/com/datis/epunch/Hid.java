@@ -202,8 +202,8 @@ public class Hid extends CordovaPlugin {
                         CardChannel channel = card.getBasicChannel();
                         byte[] bytes = new byte[] {
                             (byte)0xFF, // CLA
-                            (byte)0x30, // INS
-                            (byte)0x06, // P1
+                            (byte)0xB0, // INS
+                            (byte)0x00, // P1
                             (byte)0x00, // P2
                             (byte)0x00 // Le
                         };
