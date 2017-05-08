@@ -203,7 +203,7 @@ public class Hid extends CordovaPlugin {
                         byte[] bytes = new byte[] {
                             (byte)0xFF, // CLA
                             (byte)0x30, // INS
-                            (byte)0x03, // P1
+                            (byte)0x04, // P1
                             (byte)0x00, // P2
                             (byte)0x00 // Le
                         };
