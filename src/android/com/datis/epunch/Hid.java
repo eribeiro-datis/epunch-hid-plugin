@@ -213,7 +213,7 @@ public class Hid extends CordovaPlugin {
 						card.disconnect(true);
                         Log.d(TAG, byteArrayToString(response.getBytes()));
                         Log.d(TAG, byteArrayToString(response.getData()));
-                        updateReceivedData(atr.getBytes());
+                        // updateReceivedData(atr.getBytes());
 					}
 					try {
 						/* Don't overtax the USB/Bluetooth connection.*/
