@@ -53,6 +53,7 @@ public class Hid extends CordovaPlugin {
 
     @Override
     protected void pluginInitialize() {
+        Log.d(TAG, "Init");
         Activity activity = this.cordova.getActivity();
         mContext = activity.getApplicationContext();
         if (!alreadyInstalled(MANAGEMENT_PACKAGE)) {
