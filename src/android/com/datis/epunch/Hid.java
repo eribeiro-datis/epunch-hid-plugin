@@ -64,7 +64,7 @@ public class Hid extends CordovaPlugin {
             Log.d(TAG, "Installed");
             mService = CardService.getInstance(mContext);
             Log.d(TAG, "Get service");
-		} catch (CardException e) {
+		} catch (Exception e) {
 			Log.e(TAG, e.toString());
 		}
     }
