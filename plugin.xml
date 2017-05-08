@@ -20,6 +20,7 @@
                 <param name="android-package" value="com.datis.epunch.Hid"/>
             </feature>
         </config-file>
+        <uses-permission android:name="com.hidglobal.ia.omnikey.service.permission.SMARTCARDIO" />
         <source-file src="src/android/com/datis/epunch/Hid.java" target-dir="src/com/datis/epunch" />
         <source-file src="lib/acssmc-1.1.3.jar" target-dir="libs" />
         <source-file src="lib/AndroidSCard.jar" target-dir="libs" />
