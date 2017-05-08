@@ -205,7 +205,7 @@ public class Hid extends CordovaPlugin {
                             (byte)0xB0, // INS
                             (byte)0x00, // P1
                             (byte)0x00, // P2
-                            (byte)0x00 // Le
+                            (byte)0x10 // Le
                         };
                         CommandAPDU command = new CommandAPDU(bytes);
                         ResponseAPDU response = channel.transmit(command);
