@@ -203,8 +203,8 @@ public class Hid extends CordovaPlugin {
                         byte[] bytes = new byte[] {
                             (byte)0xFF, // CLA
                             (byte)0xB0, // INS
-                            (byte)0x08, // P1
-                            (byte)0x20, // P2
+                            (byte)0x00, // P1
+                            (byte)0x08, // P2
                             (byte)0x00 // Le
                         };
                         CommandAPDU command = new CommandAPDU(bytes);
