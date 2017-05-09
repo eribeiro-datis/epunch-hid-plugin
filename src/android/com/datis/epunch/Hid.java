@@ -88,6 +88,23 @@ public class Hid extends CordovaPlugin {
 		}
 	}
 
+    @Override
+	public void onStop() {
+		super.onStop();
+		mReadCardTask.cancel(true);
+	}
+
+    @Override
+    public void onPause(boolean multitasking) {
+        mReadCardTask.cancel(true);
+    }
+
+    @Override
+    public void onResume(boolean multitasking) {
+        mReadCardTask = new ReadCardTask();
+        mReadCardTask.execute();
+    }
+
     private CardTerminal getFirstReader() {
 		if (mFactory == null) {
 			try {
@@ -170,14 +187,6 @@ public class Hid extends CordovaPlugin {
 		return hex;
 	}
 
-    private long byteArrayToDecimal(byte[] array) {
-        long num = 0;
-        for (int i = 0; i < array.length; i++) {
-			num = num * 10 + array[i];
-		}
-        return num;
-    }
-
     private class ReadCardTask extends AsyncTask<Void, String, Void> {
 		@Override
 		public Void doInBackground(Void... params) {
@@ -209,11 +218,11 @@ public class Hid extends CordovaPlugin {
                         };
                         CommandAPDU command = new CommandAPDU(bytes);
                         ResponseAPDU response = channel.transmit(command);
-						// ATR atr = card.getATR();
+						ATR atr = card.getATR();
 						card.disconnect(true);
                         Log.d(TAG, byteArrayToString(response.getBytes()));
                         Log.d(TAG, byteArrayToString(response.getData()));
-                        // updateReceivedData(atr.getBytes());
+                        updateReceivedData(atr.getBytes());
 					}
 					try {
 						/* Don't overtax the USB/Bluetooth connection.*/
